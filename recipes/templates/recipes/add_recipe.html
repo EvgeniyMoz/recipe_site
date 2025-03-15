@@ -1,0 +1,33 @@
+{% extends 'recipes/base.html' %}
+
+{% block content %}
+    <h1>Добавить рецепт</h1>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="id_title" class="form-label">Название рецепта</label>
+            {{ form.title }}
+        </div>
+        <div class="mb-3">
+            <label for="id_description" class="form-label">Описание</label>
+            {{ form.description }}
+        </div>
+        <div class="mb-3">
+            <label for="id_steps" class="form-label">Шаги приготовления</label>
+            {{ form.steps }}
+        </div>
+        <div class="mb-3">
+            <label for="id_cooking_time" class="form-label">Время приготовления (минуты)</label>
+            {{ form.cooking_time }}
+        </div>
+        <div class="mb-3">
+            <label for="id_image" class="form-label">Изображение</label>
+            {{ form.image }}
+        </div>
+        <div class="mb-3">
+            <label for="id_categories" class="form-label">Категории</label>
+            {{ form.categories }}
+        </div>
+        <button type="submit" class="btn btn-primary">Сохранить</button>
+    </form>
+{% endblock %}

@@ -1,0 +1,15 @@
+{% extends 'recipes/base.html' %}
+
+{% block content %}
+    <h1>{{ recipe.title }}</h1>
+    <img src="{{ recipe.image.url }}" class="img-fluid mb-3" alt="{{ recipe.title }}">
+    <p><strong>Описание:</strong> {{ recipe.description }}</p>
+    <p><strong>Шаги приготовления:</strong> {{ recipe.steps }}</p>
+    <p><strong>Время приготовления:</strong> {{ recipe.cooking_time }} минут</p>
+    <p><strong>Категории:</strong>
+        {% for category in recipe.categories.all %}
+            {{ category.name }}
+        {% endfor %}
+    </p>
+    <a href="{% url 'home' %}" class="btn btn-secondary">Назад к рецептам</a>
+{% endblock %}
