@@ -64,3 +64,15 @@ def edit_recipe(request, pk):
     else:
         form = RecipeForm(instance=recipe)
     return render(request, 'recipes/add_recipe.html', {'form': form})
+
+def add_category(request):
+    if request.method == 'POST':
+        name = request.POST.get('name')
+        if name:
+            Category.objects.create(name=name)
+    return redirect('home')
+
+def search(request):
+    query = request.GET.get('q')
+    recipes = Recipe.objects.filter(title__icontains=query) if query else []
+    return render(request, 'recipes/search_results.html', {'recipes': recipes, 'query': query})

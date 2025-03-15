@@ -1,51 +1,64 @@
 {% extends 'recipes/base.html' %}
 
 {% block content %}
-    <h1 class="text-center mb-4">Добро пожаловать на сайт рецептов!</h1>
-    <div class="mb-4">
-        <h3 class="mb-3">Категории:</h3>
-        <div class="d-flex flex-wrap gap-2">
-            {% for category in categories %}
-                <a href="{% url 'category_recipes' category.id %}" class="btn btn-outline-primary">{{ category.name }}</a>
-            {% endfor %}
+    <div class="row">
+        <!-- Левая колонка: Категории -->
+        <div class="col-md-3">
+            <h4>Категории:</h4>
+            <ul class="list-group">
+                {% for category in categories %}
+                    <li class="list-group-item">
+                        <a href="{% url 'category_recipes' category.id %}" class="text-decoration-none">{{ category.name }}</a>
+                    </li>
+                {% endfor %}
+            </ul>
+            <p class="mt-3"><strong>Добавить категорию:</strong></p>
+            <form method="post" action="{% url 'add_category' %}">
+                {% csrf_token %}
+                <div class="input-group mb-3">
+                    <input type="text" name="name" class="form-control" placeholder="Новая категория">
+                    <button class="btn btn-outline-secondary" type="submit">Добавить</button>
+                </div>
+            </form>
         </div>
-    </div>
-    <div class="row row-cols-1 row-cols-md-3 g-4">
-        {% for recipe in page_obj %}
-            <div class="col">
-                <div class="card h-100">
-                    <img src="{{ recipe.image.url }}" class="card-img-top" alt="{{ recipe.title }}" style="height: 200px; object-fit: cover;">
-                    <div class="card-body d-flex flex-column">
-                        <h5 class="card-title">{{ recipe.title }}</h5>
-                        <p class="card-text flex-grow-1">{{ recipe.description|truncatewords:10 }}</p>
-                        <div class="d-flex justify-content-between align-items-center">
-                            <a href="{% url 'recipe_detail' recipe.pk %}" class="btn btn-primary">Посмотреть рецепт</a>
-                            {% if user == recipe.author %}
-                                <a href="{% url 'edit_recipe' recipe.pk %}" class="btn btn-outline-secondary">Редактировать</a>
-                            {% endif %}
+
+        <!-- Правая колонка: Рецепты -->
+        <div class="col-md-9">
+            <div class="row row-cols-1 row-cols-md-3 g-4">
+                {% for recipe in page_obj %}
+                    <div class="col">
+                        <div class="card h-100">
+                            <img src="{{ recipe.image.url }}" class="card-img-top" alt="{{ recipe.title }}" style="height: 200px; object-fit: cover;">
+                            <div class="card-body d-flex flex-column">
+                                <h5 class="card-title">{{ recipe.title }}</h5>
+                                <p class="card-text flex-grow-1">{{ recipe.description|truncatewords:10 }}</p>
+                                <a href="{% url 'recipe_detail' recipe.pk %}" class="btn btn-primary">Посмотреть рецепт</a>
+                            </div>
                         </div>
                     </div>
-                </div>
+                {% endfor %}
             </div>
-        {% endfor %}
-    </div>
-    <div class="pagination mt-4">
-        <nav aria-label="Page navigation">
-            <ul class="pagination justify-content-center">
-                {% if page_obj.has_previous %}
-                    <li class="page-item">
-                        <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Назад</a>
-                    </li>
-                {% endif %}
-                <li class="page-item disabled">
-                    <span class="page-link">Страница {{ page_obj.number }} из {{ page_obj.paginator.num_pages }}</span>
-                </li>
-                {% if page_obj.has_next %}
-                    <li class="page-item">
-                        <a class="page-link" href="?page={{ page_obj.next_page_number }}">Вперед</a>
-                    </li>
-                {% endif %}
-            </ul>
-        </nav>
+            <div class="pagination mt-4">
+                <nav aria-label="Page navigation">
+                    <ul class="pagination justify-content-center">
+                        {% if page_obj.has_previous %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Назад</a>
+                            </li>
+                        {% endif %}
+                        <li class="page-item disabled">
+                            <span class="page-link">Страница {{ page_obj.number }} из {{ page_obj.paginator.num_pages }}</span>
+                        </li>
+                        {% if page_obj.has_next %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ page_obj.next_page_number }}">Вперед</a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </nav>
+            </div>
+        </div>
     </div>
 {% endblock %}
+
+<h1 class="text-center mb-4">Вдохновляйтесь новыми вкусами!</h1>

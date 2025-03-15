@@ -11,5 +11,10 @@
             {{ category.name }}
         {% endfor %}
     </p>
-    <a href="{% url 'home' %}" class="btn btn-secondary">Назад к рецептам</a>
+    <div class="d-flex gap-2">
+        <a href="{% url 'home' %}" class="btn btn-secondary">Назад</a>
+        {% if user == recipe.author %}
+            <a href="{% url 'edit_recipe' recipe.pk %}" class="btn btn-outline-secondary">Редактировать</a>
+        {% endif %}
+    </div>
 {% endblock %}
