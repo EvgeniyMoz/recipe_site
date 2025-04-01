@@ -41,6 +41,16 @@
             background-color: #e9ecef;
             text-align: center;
         }
+
+        /* Стили для категорий */
+        .categories-container {
+            position: sticky;
+            top: 60px; /* Выравнивание с навигационной панелью */
+            padding: 10px;
+            border-right: 1px solid #ddd; /* Тонкая граница справа */
+            height: calc(100vh - 60px); /* Занимает всю высоту экрана минус высоту навигации */
+            overflow-y: auto; /* Добавляем прокрутку, если список длинный */
+        }
     </style>
 </head>
 <body>
