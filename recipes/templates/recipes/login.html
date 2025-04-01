@@ -1,28 +1,37 @@
 {% extends 'recipes/base.html' %}
 
 {% block content %}
-    <div class="container mt-5">
-        <h2 class="text-center mb-4">Вход</h2>
-        <form method="post" class="row g-3">
-            {% csrf_token %}
-            
-            <!-- Имя пользователя -->
-            <div class="col-md-6">
-                <label for="username" class="form-label">Имя пользователя</label>
-                <input type="text" name="username" id="username" class="form-control" required>
-            </div>
+    <div class="container d-flex justify-content-center align-items-center min-vh-100">
+        <div class="card shadow-lg" style="width: 100%; max-width: 500px;">
+            <div class="card-body p-5">
+                <h2 class="text-center mb-4">Вход</h2>
+                {% if error %}
+                    <div class="alert alert-danger" role="alert">
+                        {{ error }}
+                    </div>
+                {% endif %}
+                <form method="post" class="row g-3">
+                    {% csrf_token %}
+                    
+                    <!-- Имя пользователя -->
+                    <div class="col-12 position-relative">
+                        <i class="fas fa-user position-absolute top-50 start-0 translate-middle-y ms-3 text-muted"></i>
+                        <input type="text" name="username" id="username" class="form-control ps-5" placeholder="Имя пользователя" required>
+                    </div>
 
-            <!-- Пароль -->
-            <div class="col-md-6">
-                <label for="password" class="form-label">Пароль</label>
-                <input type="password" name="password" id="password" class="form-control" required>
-            </div>
+                    <!-- Пароль -->
+                    <div class="col-12 position-relative">
+                        <i class="fas fa-lock position-absolute top-50 start-0 translate-middle-y ms-3 text-muted"></i>
+                        <input type="password" name="password" id="password" class="form-control ps-5" placeholder="Пароль" required>
+                    </div>
 
-            <!-- Кнопки отправки формы -->
-            <div class="col-12 text-center">
-                <button type="submit" class="btn btn-primary me-2">Войти</button>
-                <a href="{% url 'home' %}" class="btn btn-secondary">Отмена</a>
+                    <!-- Кнопки отправки формы -->
+                    <div class="col-12 text-center">
+                        <button type="submit" class="btn btn-primary w-100 py-2 fw-bold">Войти</button>
+                        <a href="{% url 'home' %}" class="btn btn-link mt-2">Отмена</a>
+                    </div>
+                </form>
             </div>
-        </form>
+        </div>
     </div>
 {% endblock %}

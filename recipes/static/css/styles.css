@@ -1,0 +1,46 @@
+/* Улучшение полей ввода */
+.form-control {
+    padding-left: 3rem; /* Для отступа под иконки */
+    border-radius: 0.375rem;
+    transition: all 0.3s ease;
+}
+
+.form-control:focus {
+    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+    border-color: #0d6efd;
+}
+
+/* Анимация кнопок */
+.btn-primary {
+    background-color: #0d6efd;
+    border: none;
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+    background-color: #0b5ed7;
+    transform: scale(1.02);
+}
+
+/* Общие стили для карточки */
+.card {
+    border: none;
+    border-radius: 1rem;
+}
+
+.card-body {
+    border-radius: 1rem;
+}
+
+/* Стили для полей ввода с иконками */
+.position-relative {
+    margin-bottom: 1rem;
+}
+
+.position-relative .form-control {
+    padding-left: 3rem; /* Отступ для текста, чтобы он не перекрывался иконкой */
+}
+
+.position-relative i {
+    left: 1rem; /* Позиция иконки */
+}
