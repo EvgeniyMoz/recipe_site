@@ -3,11 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Сайт рецептов с возможностью поиска и добавления новых блюд.">
+    <meta name="keywords" content="рецепты, кулинария, готовка">
     <title>Сайт рецептов</title>
+
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+
     <!-- Font Awesome -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+
     <!-- Custom CSS -->
     <style>
         body {
@@ -45,11 +50,19 @@
             <a class="navbar-brand fw-bold" href="{% url 'home' %}">Кулинарная книга</a>
             <div class="navbar-nav ms-auto">
                 {% if user.is_authenticated %}
-                    <a class="nav-link" href="{% url 'add_recipe' %}">Добавить рецепт</a>
-                    <a class="nav-link" href="{% url 'logout' %}">Выйти</a>
+                    <a class="nav-link" href="{% url 'add_recipe' %}">
+                        <i class="fas fa-plus me-1"></i> Добавить рецепт
+                    </a>
+                    <a class="nav-link" href="{% url 'logout' %}">
+                        <i class="fas fa-sign-out-alt me-1"></i> Выйти
+                    </a>
                 {% else %}
-                    <a class="nav-link" href="{% url 'login' %}">Войти</a>
-                    <a class="nav-link" href="{% url 'register' %}">Зарегистрироваться</a>
+                    <a class="nav-link" href="{% url 'login' %}">
+                        <i class="fas fa-sign-in-alt me-1"></i> Войти
+                    </a>
+                    <a class="nav-link" href="{% url 'register' %}">
+                        <i class="fas fa-user-plus me-1"></i> Зарегистрироваться
+                    </a>
                 {% endif %}
             </div>
         </div>
@@ -77,8 +90,5 @@
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
 </body>
 </html>

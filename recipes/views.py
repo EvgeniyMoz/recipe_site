@@ -1,11 +1,9 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth import login
+from django.contrib.auth import login, authenticate, logout
 from .models import Recipe, Category
 from .forms import RecipeForm, RegisterForm
 from django.core.paginator import Paginator
-from django.contrib.auth import login, authenticate, logout
-from django.shortcuts import render, redirect
 
 # Главная страница
 def home(request):
@@ -14,7 +12,15 @@ def home(request):
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     categories = Category.objects.all()
-    return render(request, 'recipes/home.html', {'page_obj': page_obj, 'categories': categories})
+    return render(
+        request,
+        'recipes/home.html',
+        {
+            'recipes': page_obj.object_list,  # Передаем список рецептов для текущей страницы
+            'page_obj': page_obj,
+            'categories': categories,
+        }
+    )
 
 # Страница деталей рецепта
 def recipe_detail(request, pk):
@@ -84,6 +90,7 @@ def search(request):
         recipes = []  # Если запрос пустой, возвращаем пустой список
     return render(request, 'recipes/search_results.html', {'recipes': recipes, 'query': query})
 
+# Вход пользователя
 def user_login(request):
     if request.method == 'POST':
         username = request.POST.get('username')
@@ -96,6 +103,7 @@ def user_login(request):
             return render(request, 'recipes/login.html', {'error': 'Неверное имя пользователя или пароль'})
     return render(request, 'recipes/login.html')
 
+# Выход пользователя
 def user_logout(request):
     logout(request)  # Выход пользователя
     return redirect('home')  # Перенаправление на главную страницу
