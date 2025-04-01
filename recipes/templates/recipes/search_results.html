@@ -1,19 +1,32 @@
 {% extends 'recipes/base.html' %}
 
 {% block content %}
-    <h1>Результаты поиска: "{{ query }}"</h1>
-    <div class="row row-cols-1 row-cols-md-3 g-4">
-        {% for recipe in recipes %}
-            <div class="col">
-                <div class="card h-100">
-                    <img src="{{ recipe.image.url }}" class="card-img-top" alt="{{ recipe.title }}" style="height: 200px; object-fit: cover;">
-                    <div class="card-body d-flex flex-column">
-                        <h5 class="card-title">{{ recipe.title }}</h5>
-                        <p class="card-text flex-grow-1">{{ recipe.description|truncatewords:10 }}</p>
-                        <a href="{% url 'recipe_detail' recipe.pk %}" class="btn btn-primary">Посмотреть рецепт</a>
+    <h1 class="mb-4">Результаты поиска: "{{ query }}"</h1>
+
+    {% if recipes %}
+        <!-- Список найденных рецептов -->
+        <div class="row row-cols-1 row-cols-md-3 g-4">
+            {% for recipe in recipes %}
+                <div class="col">
+                    <div class="card h-100" onclick="location.href='{% url 'recipe_detail' recipe.pk %}'" style="cursor: pointer;">
+                        <!-- Изображение рецепта -->
+                        <img src="{{ recipe.image.url }}" class="card-img-top" alt="{{ recipe.title }}" style="height: 200px; object-fit: cover;">
+                        <div class="card-body d-flex flex-column">
+                            <!-- Название рецепта -->
+                            <h5 class="card-title">{{ recipe.title }}</h5>
+                            <!-- Описание рецепта -->
+                            <p class="card-text flex-grow-1">{{ recipe.description|truncatewords:15 }}</p>
+                            <!-- Кнопка "Посмотреть рецепт" -->
+                            <a href="{% url 'recipe_detail' recipe.pk %}" class="btn btn-primary mt-auto">Посмотреть рецепт</a>
+                        </div>
                     </div>
                 </div>
-            </div>
-        {% endfor %}
-    </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <!-- Сообщение, если ничего не найдено -->
+        <div class="alert alert-warning" role="alert">
+            По вашему запросу "{{ query }}" ничего не найдено.
+        </div>
+    {% endif %}
 {% endblock %}

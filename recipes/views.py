@@ -73,6 +73,9 @@ def add_category(request):
     return redirect('home')
 
 def search(request):
-    query = request.GET.get('q')
-    recipes = Recipe.objects.filter(title__icontains=query) if query else []
+    query = request.GET.get('q')  # Получаем запрос из формы
+    if query:
+        recipes = Recipe.objects.filter(title__icontains=query)  # Поиск по названию рецепта
+    else:
+        recipes = []  # Если запрос пустой, возвращаем пустой список
     return render(request, 'recipes/search_results.html', {'recipes': recipes, 'query': query})
