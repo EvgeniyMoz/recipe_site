@@ -4,10 +4,12 @@ from django.contrib.auth import login
 from .models import Recipe, Category
 from .forms import RecipeForm, RegisterForm
 from django.core.paginator import Paginator
+from django.contrib.auth import login, authenticate, logout
+from django.shortcuts import render, redirect
 
 # Главная страница
 def home(request):
-    recipes = Recipe.objects.all().order_by('?')
+    recipes = Recipe.objects.all().order_by('?')  # Случайный порядок рецептов
     paginator = Paginator(recipes, 6)  # 6 рецептов на страницу
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
@@ -32,7 +34,7 @@ def add_recipe(request):
             return redirect('home')
     else:
         form = RecipeForm()
-    return render(request, 'recipes/add_recipe.html', {'form': form})
+    return render(request, 'recipes/add_recipe.html', {'form': form, 'title': 'Добавить рецепт'})
 
 # Регистрация пользователя
 def register(request):
@@ -40,8 +42,8 @@ def register(request):
         form = RegisterForm(request.POST)
         if form.is_valid():
             user = form.save()
-            login(request, user)
-            return redirect('home')
+            login(request, user)  # Автоматически авторизуем пользователя после регистрации
+            return redirect('home')  # Перенаправляем на главную страницу
     else:
         form = RegisterForm()
     return render(request, 'recipes/register.html', {'form': form})
@@ -63,8 +65,9 @@ def edit_recipe(request, pk):
             return redirect('recipe_detail', pk=recipe.pk)
     else:
         form = RecipeForm(instance=recipe)
-    return render(request, 'recipes/add_recipe.html', {'form': form})
+    return render(request, 'recipes/add_recipe.html', {'form': form, 'title': 'Редактировать рецепт'})
 
+# Добавление категории
 def add_category(request):
     if request.method == 'POST':
         name = request.POST.get('name')
@@ -72,6 +75,7 @@ def add_category(request):
             Category.objects.create(name=name)
     return redirect('home')
 
+# Поиск рецептов
 def search(request):
     query = request.GET.get('q')  # Получаем запрос из формы
     if query:
@@ -79,3 +83,19 @@ def search(request):
     else:
         recipes = []  # Если запрос пустой, возвращаем пустой список
     return render(request, 'recipes/search_results.html', {'recipes': recipes, 'query': query})
+
+def user_login(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            return redirect('home')  # Перенаправление на главную страницу
+        else:
+            return render(request, 'recipes/login.html', {'error': 'Неверное имя пользователя или пароль'})
+    return render(request, 'recipes/login.html')
+
+def user_logout(request):
+    logout(request)  # Выход пользователя
+    return redirect('home')  # Перенаправление на главную страницу

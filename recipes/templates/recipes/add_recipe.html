@@ -1,33 +1,58 @@
 {% extends 'recipes/base.html' %}
 
 {% block content %}
-    <h1>Добавить рецепт</h1>
-    <form method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-        <div class="mb-3">
-            <label for="id_title" class="form-label">Название рецепта</label>
-            {{ form.title }}
-        </div>
-        <div class="mb-3">
-            <label for="id_description" class="form-label">Описание</label>
-            {{ form.description }}
-        </div>
-        <div class="mb-3">
-            <label for="id_steps" class="form-label">Шаги приготовления</label>
-            {{ form.steps }}
-        </div>
-        <div class="mb-3">
-            <label for="id_cooking_time" class="form-label">Время приготовления (минуты)</label>
-            {{ form.cooking_time }}
-        </div>
-        <div class="mb-3">
-            <label for="id_image" class="form-label">Изображение</label>
-            {{ form.image }}
-        </div>
-        <div class="mb-3">
-            <label for="id_categories" class="form-label">Категории</label>
-            {{ form.categories }}
-        </div>
-        <button type="submit" class="btn btn-primary">Сохранить</button>
-    </form>
+    <div class="container mt-5">
+        <h2 class="mb-4 text-center">{{ title }}</h2>
+        <form method="post" enctype="multipart/form-data" class="row g-3">
+            {% csrf_token %}
+            
+            <!-- Название рецепта -->
+            <div class="col-md-6">
+                <label for="{{ form.title.id_for_label }}" class="form-label">Название рецепта</label>
+                {{ form.title }}
+                <small class="text-muted">Введите привлекательное название для вашего рецепта.</small>
+            </div>
+
+            <!-- Категории -->
+            <div class="col-md-6">
+                <label for="{{ form.categories.id_for_label }}" class="form-label">Категории</label>
+                {{ form.categories }}
+                <small class="text-muted">Выберите одну или несколько категорий.</small>
+            </div>
+
+            <!-- Описание -->
+            <div class="col-12">
+                <label for="{{ form.description.id_for_label }}" class="form-label">Описание</label>
+                {{ form.description }}
+                <small class="text-muted">Добавьте краткое описание рецепта.</small>
+            </div>
+
+            <!-- Шаги приготовления -->
+            <div class="col-12">
+                <label for="{{ form.steps.id_for_label }}" class="form-label">Шаги приготовления</label>
+                {{ form.steps }}
+                <small class="text-muted">Опишите шаги приготовления по порядку.</small>
+            </div>
+
+            <!-- Время приготовления -->
+            <div class="col-md-4">
+                <label for="{{ form.cooking_time.id_for_label }}" class="form-label">Время приготовления (минуты)</label>
+                {{ form.cooking_time }}
+                <small class="text-muted">Укажите примерное время приготовления.</small>
+            </div>
+
+            <!-- Изображение -->
+            <div class="col-md-8">
+                <label for="{{ form.image.id_for_label }}" class="form-label">Изображение</label>
+                {{ form.image }}
+                <small class="text-muted">Загрузите изображение для вашего рецепта.</small>
+            </div>
+
+            <!-- Кнопки отправки формы -->
+            <div class="col-12 text-center">
+                <button type="submit" class="btn btn-primary me-2">Сохранить</button>
+                <a href="{% url 'home' %}" class="btn btn-secondary">Отмена</a>
+            </div>
+        </form>
+    </div>
 {% endblock %}
