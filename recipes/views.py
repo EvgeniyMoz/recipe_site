@@ -16,7 +16,7 @@ def home(request):
         request,
         'recipes/home.html',
         {
-            'recipes': page_obj.object_list,  # Передаем список рецептов для текущей страницы
+            'recipes': page_obj.object_list,
             'page_obj': page_obj,
             'categories': categories,
         }
@@ -34,7 +34,7 @@ def add_recipe(request):
         form = RecipeForm(request.POST, request.FILES)
         if form.is_valid():
             recipe = form.save(commit=False)
-            recipe.author = request.user
+            recipe.author = request.user  # Устанавливаем текущего пользователя как автора
             recipe.save()
             form.save_m2m()  # Сохраняем связанные категории
             return redirect('home')
